@@ -17,6 +17,8 @@ public class BicyclePart extends Product<BicyclePartId> {
 
     private String color;
 
+    @Column(name="name", nullable = false)
+    private String name;
 
     @Override
     public BicyclePartId id() {

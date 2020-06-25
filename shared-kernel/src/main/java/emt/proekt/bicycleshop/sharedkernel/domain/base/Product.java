@@ -18,8 +18,8 @@ public abstract class Product<ID extends DomainObjectId> implements Identifyable
     @Version
     private Long version;
 
-    @Column(name="name", nullable = false)
-    private String name;
+    @Column(name="model", nullable = false)
+    private String model;
 
     @Embedded
     @AttributeOverrides({

@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "orders")
@@ -55,8 +56,6 @@ public class Order extends AbstractEntity<OrderId> {
     private Order() {
 
     }
-
-
 
     public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
         super(DomainObjectId.randomId(OrderId.class));
