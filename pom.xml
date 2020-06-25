@@ -8,5 +8,13 @@
     <artifactId>bicycleshop</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>bicycle</module>
+        <module>bicyclepart</module>
+        <module>order</module>
+        <module>shared-kernel</module>
+        <module>user</module>
+    </modules>
+
 
 </project>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import emt.proekt.bicycleshop.bicycle.domain.model.Bicycle;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.Product;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Currency;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -54,6 +56,8 @@ public class Order extends AbstractEntity<OrderId> {
 
     }
 
+
+
     public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
         super(DomainObjectId.randomId(OrderId.class));
         this.items = new HashSet<>();
@@ -85,9 +89,9 @@ public class Order extends AbstractEntity<OrderId> {
         return items.stream();
     }
 
-    public OrderItem addItem(@NonNull Bicycle bicycle, int qty) {
-        Objects.requireNonNull(bicycle, "product must not be null");
-        var item = new OrderItem(bicycle.getId(), bicycle.getPrice(), qty);
+    public OrderItem addItem(@NonNull Product product, int qty) {
+        Objects.requireNonNull(product, "product must not be null");
+        var item = new OrderItem(product.getId(), product.getPrice(), qty);
         item.setQuantity(qty);
         items.add(item);
         return item;
@@ -97,12 +101,24 @@ public class Order extends AbstractEntity<OrderId> {
         this.currency = currency;
     }
 
-    public Money total() {
-        return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
-    }
-
     public Instant getOrderedOn() {
         return orderedOn;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public OrderState getState() {
+        return state;
+    }
+
+    public RecipientAddress getBillingAddress() {
+        return billingAddress;
+    }
+
+    public Money total() {
+        return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
     }
 
     @Override
