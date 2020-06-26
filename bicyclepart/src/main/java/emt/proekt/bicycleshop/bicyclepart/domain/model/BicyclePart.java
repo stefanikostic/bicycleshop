@@ -1,27 +1,30 @@
 package emt.proekt.bicycleshop.bicyclepart.domain.model;
 
 
-import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.Product;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import emt.proekt.bicycleshop.sharedkernel.domain.origin.Manufacturer;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="bicyclepart")
-public class BicyclePart extends Product<BicyclePartId> {
+@Table(name="bicycle_part")
+public class BicyclePart extends Product {
 
-    @EmbeddedId
-    private BicyclePartId id;
+    @Column(name="part_name", nullable = false)
+    private String partName;
 
-    private String color;
 
-    @Column(name="name", nullable = false)
-    private String name;
+    public BicyclePart(ProductId productId, String partName, String productModel, Money productPrice, int quantity,
+                       int yearManufactured, Manufacturer manufacturer, String description) {
+        super(productId,productModel, productPrice, quantity, yearManufactured,manufacturer,description);
+        this.partName = partName;
+
+    }
 
     @Override
-    public BicyclePartId id() {
+    public ProductId id() {
         return id;
     }
 }

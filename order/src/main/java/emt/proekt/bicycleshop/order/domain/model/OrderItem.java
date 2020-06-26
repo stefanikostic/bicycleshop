@@ -2,6 +2,7 @@ package emt.proekt.bicycleshop.order.domain.model;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import lombok.Getter;
 
@@ -16,19 +17,21 @@ import javax.persistence.Table;
 public class OrderItem extends AbstractEntity<OrderItemId> {
 
     @Embedded
-    private DomainObjectId productId;
+    private ProductId productId;
 
     @Embedded
     private Money itemPrice;
 
-    @Column(name = "qty", nullable = false)
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
     private OrderItem() {
 
     }
 
-    public OrderItem(DomainObjectId id, Money itemPrice, int quantity) {
+    public OrderItem(ProductId id, Money itemPrice, int quantity) {
+        super(DomainObjectId.randomId(OrderItemId.class));
+
         this.productId = id;
         this.itemPrice = itemPrice;
         if(quantity<0){

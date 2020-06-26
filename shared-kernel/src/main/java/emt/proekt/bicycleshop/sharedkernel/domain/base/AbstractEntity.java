@@ -2,14 +2,17 @@ package emt.proekt.bicycleshop.sharedkernel.domain.base;
 
 import lombok.Getter;
 
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
+@Getter
 @MappedSuperclass
 public abstract class AbstractEntity<ID extends DomainObjectId> implements IdentifyableDomainObject<ID> {
 
-    @Id
+    @EmbeddedId
     protected ID id;
 
     public AbstractEntity() {

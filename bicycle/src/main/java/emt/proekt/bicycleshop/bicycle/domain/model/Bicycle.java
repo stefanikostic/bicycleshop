@@ -2,6 +2,7 @@ package emt.proekt.bicycleshop.bicycle.domain.model;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.Product;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import emt.proekt.bicycleshop.sharedkernel.domain.origin.Manufacturer;
 import lombok.Getter;
@@ -12,15 +13,21 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name="bicycle")
-public class Bicycle extends Product<BicycleId> {
+public class Bicycle extends Product {
 
-    @EmbeddedId
-    private BicycleId id;
+    private String color;
 
-    private String type;
+    private String bicycleType;
+
+    public Bicycle(ProductId productId, String color, String bicycleType, String productModel, Money productPrice, int quantity,
+                       int yearManufactured, Manufacturer manufacturer, String description) {
+        super(productId,productModel, productPrice, quantity, yearManufactured,manufacturer,description);
+        this.color = color;
+        this.bicycleType = bicycleType;
+    }
 
     @Override
-    public BicycleId id() {
+    public ProductId id() {
         return id;
     }
 }

@@ -10,25 +10,22 @@ import java.util.Objects;
 
 @Getter
 @MappedSuperclass
-public abstract class Product<ID extends DomainObjectId> implements IdentifyableDomainObject<ID> {
-
-    @Id
-    protected ID id;
+public abstract class Product extends AbstractEntity<ProductId>{
 
     @Version
     private Long version;
 
-    @Column(name="model", nullable = false)
-    private String model;
+    @Column(name="product_model", nullable = false)
+    private String productModel;
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "amount")),
             @AttributeOverride(name = "currency", column = @Column(name = "currency"))
     })
-    private Money price;
+    private Money productPrice;
 
-    private int yearManufacture;
+    private int yearManufactured;
 
     private int quantity;
 
@@ -40,17 +37,32 @@ public abstract class Product<ID extends DomainObjectId> implements Identifyable
 
     public Product() {
     }
-
-    public Product(ID id) {
-        this.id = id;
+    public Product(ProductId id, String productModel, Money productPrice,
+                            int quantity, int yearManufactured,Manufacturer manufacturer,String description) {
+        super(id);
+        this.productModel = productModel;
+        this.productPrice = productPrice;
+        this.quantity = quantity;
+        this.yearManufactured = yearManufactured;
+        this.manufacturer = manufacturer;
+        this.description = description;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product<?> product = (Product<?>) o;
-        return Objects.equals(id, product.id);
+        if (!super.equals(o)) return false;
+        Product product = (Product) o;
+        return yearManufactured == product.yearManufactured &&
+                quantity == product.quantity &&
+                deleted == product.deleted &&
+                Objects.equals(version, product.version) &&
+                productModel.equals(product.productModel) &&
+                productPrice.equals(product.productPrice) &&
+                manufacturer.equals(product.manufacturer) &&
+                Objects.equals(description, product.description);
     }
 
     @Override

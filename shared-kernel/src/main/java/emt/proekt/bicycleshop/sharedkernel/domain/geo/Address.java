@@ -6,27 +6,31 @@ import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
 @Embeddable
 @Getter
+@MappedSuperclass
 public class Address implements ValueObject {
 
     @Column(name = "address")
     private String address;
 
-    @Column(name = "city")
-    private String city;
+    @Column(name = "city_name")
+    @Embedded
+    private City city;
 
     @Column(name = "country")
-    private String country;
+    private Country country;
 
     @SuppressWarnings("unused") // Used by JPA only.
     protected Address() {
     }
 
-    public Address(@NonNull String address, @NonNull String city,
-                   @NonNull String country) {
+    public Address(@NonNull String address, @NonNull City city,
+                   @NonNull Country country) {
         this.address = address;
         this.city = city;
         this.country = country;

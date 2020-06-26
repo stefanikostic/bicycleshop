@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import emt.proekt.bicycleshop.bicycle.domain.model.Bicycle;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
-import emt.proekt.bicycleshop.sharedkernel.domain.base.Product;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Currency;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import lombok.Getter;
@@ -23,14 +22,11 @@ import java.util.stream.Stream;
 @Getter
 public class Order extends AbstractEntity<OrderId> {
 
-    @EmbeddedId
-    private OrderId id;
-
     @Version
     private Long version;
 
-    @Column(name = "ordered_on", nullable = false)
-    private Instant orderedOn;
+    @Column(name = "ordered_date", nullable = false)
+    private Instant orderedDate;
 
     @Column(name = "order_currency", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,12 +38,11 @@ public class Order extends AbstractEntity<OrderId> {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "billing_name", nullable = false)),
-            @AttributeOverride(name = "address", column = @Column(name = "billing_address", nullable = false)),
-            @AttributeOverride(name = "city", column = @Column(name = "billing_city", nullable = false)),
-            @AttributeOverride(name = "country", column = @Column(name = "billing_country", nullable = false))
+            @AttributeOverride(name = "address", column = @Column(name = "shipping_address", nullable = false)),
+            @AttributeOverride(name = "city", column = @Column(name = "shipping_city", nullable = false)),
+            @AttributeOverride(name = "country", column = @Column(name = "shipping_country", nullable = false))
     })
-    private RecipientAddress billingAddress;
+    private ShippingAddress shippingAddress;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<OrderItem> items;
@@ -57,13 +52,13 @@ public class Order extends AbstractEntity<OrderId> {
 
     }
 
-    public Order(@NonNull Instant orderedOn, @NonNull Currency currency, @NonNull RecipientAddress billingAddress) {
+    public Order(@NonNull Instant orderedDate, @NonNull Currency currency, @NonNull ShippingAddress shippingAddress) {
         super(DomainObjectId.randomId(OrderId.class));
         this.items = new HashSet<>();
         setCurrency(currency);
-        setOrderedOn(orderedOn);
+        setOrderedDate(orderedDate);
         setState(OrderState.RECEIVED);
-        setBillingAddress(billingAddress);
+        setShippingAddress(shippingAddress);
     }
 
     @NonNull
@@ -76,12 +71,12 @@ public class Order extends AbstractEntity<OrderId> {
         this.state = state;
     }
 
-    public void setOrderedOn(Instant orderedOn) {
-        this.orderedOn = orderedOn;
+    public void setOrderedDate(Instant orderedDate) {
+        this.orderedDate = orderedDate;
     }
 
-    public void setBillingAddress(RecipientAddress billingAddress) {
-        this.billingAddress = billingAddress;
+    public void setShippingAddress(ShippingAddress shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public Stream<OrderItem> getItems() {
@@ -90,7 +85,7 @@ public class Order extends AbstractEntity<OrderId> {
 
     public OrderItem addItem(@NonNull Product product, int qty) {
         Objects.requireNonNull(product, "product must not be null");
-        var item = new OrderItem(product.getId(), product.getPrice(), qty);
+        var item = new OrderItem(product.getId(), product.getProductPrice(), qty);
         item.setQuantity(qty);
         items.add(item);
         return item;
@@ -100,8 +95,8 @@ public class Order extends AbstractEntity<OrderId> {
         this.currency = currency;
     }
 
-    public Instant getOrderedOn() {
-        return orderedOn;
+    public Instant getOrderedDate() {
+        return orderedDate;
     }
 
     public Currency getCurrency() {
@@ -112,8 +107,8 @@ public class Order extends AbstractEntity<OrderId> {
         return state;
     }
 
-    public RecipientAddress getBillingAddress() {
-        return billingAddress;
+    public ShippingAddress getShippingAddress() {
+        return shippingAddress;
     }
 
     public Money total() {
