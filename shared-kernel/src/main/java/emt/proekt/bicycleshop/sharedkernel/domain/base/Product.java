@@ -48,7 +48,18 @@ public abstract class Product extends AbstractEntity<ProductId>{
         this.description = description;
     }
 
+    public void subtractQuantity(int quantity){
+        if(quantity>this.quantity){
+            throw new RuntimeException("unsupported quantity");
 
+        }
+        this.quantity -= quantity;
+    }
+
+    public void addQuantity(int quantity){
+
+        this.quantity += quantity;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,6 +75,7 @@ public abstract class Product extends AbstractEntity<ProductId>{
                 manufacturer.equals(product.manufacturer) &&
                 Objects.equals(description, product.description);
     }
+
 
     @Override
     public int hashCode() {

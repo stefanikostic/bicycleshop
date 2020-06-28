@@ -36,6 +36,7 @@ public class Order extends AbstractEntity<OrderId> {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "shipping_address", nullable = false)),
@@ -57,10 +58,13 @@ public class Order extends AbstractEntity<OrderId> {
         this.items = new HashSet<>();
         setCurrency(currency);
         setOrderedDate(orderedDate);
-        setState(OrderState.RECEIVED);
+        setState(OrderState.PROCESSING);
         setShippingAddress(shippingAddress);
     }
 
+    public void cancel(){
+        this.state = OrderState.CANCELLED;
+    }
     @NonNull
     @JsonProperty("state")
     public OrderState state() {
@@ -99,17 +103,6 @@ public class Order extends AbstractEntity<OrderId> {
         return orderedDate;
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public OrderState getState() {
-        return state;
-    }
-
-    public ShippingAddress getShippingAddress() {
-        return shippingAddress;
-    }
 
     public Money total() {
         return items.stream().map(OrderItem::subtotal).reduce(new Money(currency, 0), Money::add);
