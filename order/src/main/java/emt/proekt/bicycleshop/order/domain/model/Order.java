@@ -1,14 +1,12 @@
 package emt.proekt.bicycleshop.order.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import emt.proekt.bicycleshop.bicycle.domain.model.Bicycle;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Currency;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import lombok.Getter;
 import lombok.NonNull;
-
 
 import javax.persistence.*;
 import java.time.Instant;
