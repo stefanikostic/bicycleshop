@@ -2,8 +2,10 @@ package emt.proekt.bicycleshop.order.application;
 
 import emt.proekt.bicycleshop.order.application.form.OrderForm;
 import emt.proekt.bicycleshop.order.application.form.ShippingAddressForm;
+import emt.proekt.bicycleshop.order.domain.event.OrderCanceled;
 import emt.proekt.bicycleshop.order.domain.event.OrderCreated;
 import emt.proekt.bicycleshop.order.domain.event.OrderItemAdded;
+import emt.proekt.bicycleshop.order.domain.event.OrderItemDeleted;
 import emt.proekt.bicycleshop.order.domain.model.Order;
 import emt.proekt.bicycleshop.order.domain.model.OrderId;
 import emt.proekt.bicycleshop.order.domain.model.ShippingAddress;
@@ -50,6 +52,16 @@ public class OrderCatalog {
         applicationEventPublisher.publishEvent(new OrderCreated(newOrder.id(),newOrder.getOrderedDate()));
         newOrder.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemAdded(newOrder.id(),orderItem.id(),orderItem.getProductId(),orderItem.getQuantity(), Instant.now())));
         return newOrder.id();
+    }
+
+
+    public void cancelOrder(OrderId orderId){
+        Objects.requireNonNull(orderId,"orderId must not be null");
+        Order order = orderRepository.findById(orderId).orElseThrow(RuntimeException::new);
+        order.cancel();
+        applicationEventPublisher.publishEvent(new OrderCanceled(order.id(),Instant.now()));
+        order.getItems().forEach(orderItem -> applicationEventPublisher.publishEvent(new OrderItemDeleted(order.id(),orderItem.id(),orderItem.getProductId(),orderItem.getQuantity(),Instant.now())));
+
     }
 
     @NonNull

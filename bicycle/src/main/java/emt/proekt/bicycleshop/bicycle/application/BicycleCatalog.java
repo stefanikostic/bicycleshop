@@ -1,8 +1,10 @@
 package emt.proekt.bicycleshop.bicycle.application;
 
+
 import emt.proekt.bicycleshop.bicycle.domain.model.Bicycle;
 import emt.proekt.bicycleshop.bicycle.domain.repository.BicycleRepository;
-import emt.proekt.bicycleshop.sharedkernel.domain.base.Product;
+import emt.proekt.bicycleshop.bicycle.integration.OrderItemAddedEvent;
+import emt.proekt.bicycleshop.bicycle.integration.OrderItemDeletedEvent;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -24,16 +26,28 @@ public class BicycleCatalog {
         this.bicycleRepository = bicycleRepository;
     }
 
-    @NonNull
-    public List<Bicycle> findAll() {
+
+    public List<Bicycle> findAll(){
         return bicycleRepository.findAll();
     }
 
-    @NonNull
-    public Optional<Bicycle> findById(@NonNull ProductId productId) {
-        Objects.requireNonNull(productId, "productId must not be null");
-        return bicycleRepository.findById(productId);
+   public Optional<Bicycle> findById(@NonNull ProductId productId){
+       Objects.requireNonNull(productId, "productId mus not be null");
+       return bicycleRepository.findById(productId);
+   }
+
+   @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+   public void onOrderItemAdded(OrderItemAddedEvent event){
+        Bicycle bicycle = bicycleRepository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
+        bicycle.subtractQuantity(event.getQuantity());
+        bicycleRepository.save(bicycle);
+   }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onOrderItemDeleted(OrderItemDeletedEvent event){
+        Bicycle bicycle = bicycleRepository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
+        bicycle.addQuantity(event.getQuantity());
+        bicycleRepository.save(bicycle);
     }
-    
 
 }
