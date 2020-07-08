@@ -1,4 +1,4 @@
-package emt.proekt.bicycleshop.order;
+package emt.proekt.bicycleshop.product;
 
 import emt.proekt.bicycleshop.sharedkernel.SharedConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -11,10 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @EntityScan
 @Import(SharedConfiguration.class)
-public class OrderApplication {
+public class ProductApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderApplication.class, args);
+        SpringApplication.run(ProductApplication.class, args);
     }
 
 }

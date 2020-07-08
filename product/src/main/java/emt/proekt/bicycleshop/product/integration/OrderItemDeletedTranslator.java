@@ -1,4 +1,4 @@
-package emt.proekt.bicycleshop.bicycle.integration;
+package emt.proekt.bicycleshop.product.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
@@ -16,7 +16,7 @@ public class OrderItemDeletedTranslator implements RemoteEventTranslator {
 
     @Override
     public boolean supports(StoredDomainEvent storedDomainEvent) {
-        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.bicycle.integration.OrderItemDeletedEvent");
+        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.product.integration.OrderItemDeletedEvent");
     }
 
     @Override

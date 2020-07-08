@@ -18,6 +18,11 @@ public class Money implements ValueObject {
 
     private final int amount;
 
+    private Money() {
+        this.currency=null;
+        this.amount = 0;
+    }
+
     public Money(@NonNull Currency currency, @NonNull int amount) {
         this.currency = currency;
         this.amount = amount;

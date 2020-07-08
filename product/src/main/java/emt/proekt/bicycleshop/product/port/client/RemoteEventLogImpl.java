@@ -1,4 +1,4 @@
-package emt.proekt.bicycleshop.bicyclepart.client;
+package emt.proekt.bicycleshop.product.port.client;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.RemoteEventLog;
 import emt.proekt.bicycleshop.sharedkernel.infra.eventlog.StoredDomainEvent;

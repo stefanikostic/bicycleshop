@@ -1,9 +1,9 @@
-package emt.proekt.bicycleshop.bicycle.integration;
+package emt.proekt.bicycleshop.product.integration;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import emt.proekt.bicycleshop.bicycle.domain.model.OrderId;
+import emt.proekt.bicycleshop.product.domain.model.OrderId;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
 import org.springframework.lang.NonNull;
 

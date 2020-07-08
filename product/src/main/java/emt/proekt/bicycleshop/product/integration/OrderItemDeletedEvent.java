@@ -1,10 +1,10 @@
-package emt.proekt.bicycleshop.bicycle.integration;
+package emt.proekt.bicycleshop.product.integration;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import emt.proekt.bicycleshop.bicycle.domain.model.OrderId;
-import emt.proekt.bicycleshop.bicycle.domain.model.OrderItemId;
+import emt.proekt.bicycleshop.product.domain.model.OrderId;
+import emt.proekt.bicycleshop.product.domain.model.OrderItemId;
+import emt.proekt.bicycleshop.product.domain.model.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
-import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import lombok.Getter;
 import lombok.NonNull;
 

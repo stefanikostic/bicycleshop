@@ -1,6 +1,7 @@
-package emt.proekt.bicycleshop.sharedkernel.domain.base;
+package emt.proekt.bicycleshop.product.domain.model;
 
-
+import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.Type;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import emt.proekt.bicycleshop.sharedkernel.domain.origin.Manufacturer;
 import lombok.Getter;
@@ -8,10 +9,10 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 @Getter
-@MappedSuperclass
-public abstract class Product extends AbstractEntity<ProductId>{
-
+@Table(name="products")
+public class Product extends AbstractEntity<ProductId> {
     @Version
     private Long version;
 
@@ -25,6 +26,7 @@ public abstract class Product extends AbstractEntity<ProductId>{
     })
     private Money productPrice;
 
+    @Column(name="year_manufactured", nullable = false)
     private int yearManufactured;
 
     private int quantity;
@@ -33,12 +35,16 @@ public abstract class Product extends AbstractEntity<ProductId>{
 
     private String description;
 
+    @Column(name="type", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private Type type;
+
     private boolean deleted = false;
 
     public Product() {
     }
     public Product(ProductId id, String productModel, Money productPrice,
-                            int quantity, int yearManufactured,Manufacturer manufacturer,String description) {
+                   int quantity, int yearManufactured,Manufacturer manufacturer,String description, Type type) {
         super(id);
         this.productModel = productModel;
         this.productPrice = productPrice;
@@ -46,18 +52,17 @@ public abstract class Product extends AbstractEntity<ProductId>{
         this.yearManufactured = yearManufactured;
         this.manufacturer = manufacturer;
         this.description = description;
+        this.type = type;
     }
 
     public void subtractQuantity(int quantity){
         if(quantity>this.quantity){
             throw new RuntimeException("unsupported quantity");
-
         }
         this.quantity -= quantity;
     }
 
     public void addQuantity(int quantity){
-
         this.quantity += quantity;
     }
     @Override
@@ -87,5 +92,10 @@ public abstract class Product extends AbstractEntity<ProductId>{
         return "Product{" +
                 "id=" + id +
                 '}';
+    }
+
+    @Override
+    public ProductId id() {
+        return id;
     }
 }

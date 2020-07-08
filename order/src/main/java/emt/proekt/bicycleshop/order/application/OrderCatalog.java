@@ -31,7 +31,6 @@ public class OrderCatalog {
 
     private final Validator validator;
 
-
     public OrderCatalog(OrderRepository orderRepository,
                         Validator validator,
                         ApplicationEventPublisher applicationEventPublisher) {
@@ -73,7 +72,7 @@ public class OrderCatalog {
     @NonNull
     private Order toDomainModel(@NonNull OrderForm orderForm) {
         var order = new Order(Instant.now(), orderForm.getCurrency(),
-                toDomainModel(orderForm.getShippingAddress()));
+                toDomainModel(orderForm.getShippingAddress()), orderForm.getUserId());
         orderForm.getItems().forEach(item -> order.addItem(item.getProduct(), item.getQuantity()));
         return order;
     }

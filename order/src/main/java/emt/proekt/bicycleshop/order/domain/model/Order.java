@@ -43,7 +43,12 @@ public class Order extends AbstractEntity<OrderId> {
     })
     private ShippingAddress shippingAddress;
 
+    @Embedded
+    @AttributeOverride(name="id",column = @Column(name="user_id",nullable = false))
+    private UserId userId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false, updatable = false, insertable = false)
     private Set<OrderItem> items;
 
     @SuppressWarnings("unused")
@@ -51,13 +56,14 @@ public class Order extends AbstractEntity<OrderId> {
 
     }
 
-    public Order(@NonNull Instant orderedDate, @NonNull Currency currency, @NonNull ShippingAddress shippingAddress) {
+    public Order(@NonNull Instant orderedDate, @NonNull Currency currency, @NonNull ShippingAddress shippingAddress, @NonNull UserId userId) {
         super(DomainObjectId.randomId(OrderId.class));
         this.items = new HashSet<>();
         setCurrency(currency);
         setOrderedDate(orderedDate);
         setState(OrderState.PROCESSING);
         setShippingAddress(shippingAddress);
+        setUserId(userId);
     }
 
     public void cancel(){
@@ -95,6 +101,10 @@ public class Order extends AbstractEntity<OrderId> {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public void setUserId(UserId userId) {
+        this.userId = userId;
     }
 
     public Instant getOrderedDate() {

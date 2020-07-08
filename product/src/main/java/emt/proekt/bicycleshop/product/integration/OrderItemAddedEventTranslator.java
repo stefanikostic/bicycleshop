@@ -1,4 +1,4 @@
-package emt.proekt.bicycleshop.bicycle.integration;
+package emt.proekt.bicycleshop.product.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
@@ -9,21 +9,21 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class OrderCreatedEventTranslator implements RemoteEventTranslator {
+public class OrderItemAddedEventTranslator implements RemoteEventTranslator {
 
     private final ObjectMapper objectMapper;
 
-    public OrderCreatedEventTranslator(ObjectMapper objectMapper) {
+    public OrderItemAddedEventTranslator(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
     @Override
     public boolean supports(StoredDomainEvent remoteEvent) {
-        return remoteEvent.domainEventClassName().equals("emt.proekt.bicycleshop.bicycle.integration.OrderCreatedEvent");
+        return remoteEvent.domainEventClassName().equals("emt.proekt.bicycleshop.product.integration.OrderItemAddedEvent");
     }
 
     @Override
     public Optional<DomainEvent> translate(StoredDomainEvent remoteEvent) {
-        return Optional.of(remoteEvent.toDomainEvent(objectMapper,OrderCreatedEvent.class));
+        return Optional.of(remoteEvent.toDomainEvent(objectMapper,OrderItemAddedEvent.class));
     }
 }

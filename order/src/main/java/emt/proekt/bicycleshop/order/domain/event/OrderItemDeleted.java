@@ -4,8 +4,8 @@ package emt.proekt.bicycleshop.order.domain.event;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import emt.proekt.bicycleshop.order.domain.model.OrderId;
 import emt.proekt.bicycleshop.order.domain.model.OrderItemId;
+import emt.proekt.bicycleshop.order.domain.model.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
-import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import lombok.Getter;
 import lombok.NonNull;
 

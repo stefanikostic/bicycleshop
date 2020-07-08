@@ -1,6 +1,6 @@
 package emt.proekt.bicycleshop.order.application.form;
 
-import emt.proekt.bicycleshop.order.domain.model.ShippingAddress;
+import emt.proekt.bicycleshop.order.domain.model.UserId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Currency;
 
 import javax.validation.Valid;
@@ -18,6 +18,10 @@ public class OrderForm implements Serializable {
     @Valid
     @NotNull
     private ShippingAddressForm shippingAddress = new ShippingAddressForm();
+
+    @Valid
+    @NotNull
+    private UserId userId;
 
     @Valid
     @NotEmpty
@@ -38,4 +42,6 @@ public class OrderForm implements Serializable {
     public List<OrderItemForm> getItems() {
         return items;
     }
+
+    public UserId getUserId() { return userId; }
 }

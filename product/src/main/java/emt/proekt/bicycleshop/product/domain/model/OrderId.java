@@ -1,4 +1,4 @@
-package emt.proekt.bicycleshop.bicycle.domain.model;
+package emt.proekt.bicycleshop.product.domain.model;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
 

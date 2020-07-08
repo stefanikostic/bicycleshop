@@ -2,14 +2,10 @@ package emt.proekt.bicycleshop.order.domain.model;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
-import emt.proekt.bicycleshop.sharedkernel.domain.base.ProductId;
 import emt.proekt.bicycleshop.sharedkernel.domain.financial.Money;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Entity
@@ -17,6 +13,7 @@ import javax.persistence.Table;
 public class OrderItem extends AbstractEntity<OrderItemId> {
 
     @Embedded
+    @AttributeOverride(name="id",column = @Column(name="product_id",nullable = false))
     private ProductId productId;
 
     @Embedded

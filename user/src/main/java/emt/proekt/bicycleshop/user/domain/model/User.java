@@ -2,6 +2,7 @@ package emt.proekt.bicycleshop.user.domain.model;
 
 import emt.proekt.bicycleshop.sharedkernel.domain.base.AbstractEntity;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainObjectId;
+import emt.proekt.bicycleshop.sharedkernel.domain.base.Role;
 import lombok.Getter;
 import lombok.NonNull;
 
