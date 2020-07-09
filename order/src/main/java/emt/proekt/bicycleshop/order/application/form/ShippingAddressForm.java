@@ -12,8 +12,6 @@ import java.io.Serializable;
 public class ShippingAddressForm implements Serializable {
 
     @NotEmpty
-    private String name;
-    @NotEmpty
     private String address;
     @NotNull
     private City city;

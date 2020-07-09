@@ -48,4 +48,10 @@ public class ProductCatalog {
         productRepository.save(product);
     }
 
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void onOrderCreated(OrderItemAddedEvent event) {
+        Product p = productRepository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
+        p.subtractQuantity(event.getQuantity());
+        productRepository.save(p);
+    }
 }

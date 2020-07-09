@@ -28,13 +28,16 @@ public class OrderItem extends AbstractEntity<OrderItemId> {
 
     public OrderItem(ProductId id, Money itemPrice, int quantity) {
         super(DomainObjectId.randomId(OrderItemId.class));
-
         this.productId = id;
         this.itemPrice = itemPrice;
         if(quantity<0){
             throw new IllegalArgumentException("Quantity cannot be negative!");
         }
         this.quantity = quantity;
+    }
+
+    public void setProductId(ProductId productId) {
+        this.productId = productId;
     }
 
     public void setItemPrice(Money itemPrice) {

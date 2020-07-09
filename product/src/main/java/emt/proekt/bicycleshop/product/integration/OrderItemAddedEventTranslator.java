@@ -19,7 +19,7 @@ public class OrderItemAddedEventTranslator implements RemoteEventTranslator {
 
     @Override
     public boolean supports(StoredDomainEvent remoteEvent) {
-        return remoteEvent.domainEventClassName().equals("emt.proekt.bicycleshop.product.integration.OrderItemAddedEvent");
+        return remoteEvent.domainEventClassName().equals("emt.proekt.bicycleshop.order.domain.event.OrderItemAdded");
     }
 
     @Override

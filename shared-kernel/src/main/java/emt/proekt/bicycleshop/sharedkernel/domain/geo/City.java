@@ -1,6 +1,8 @@
 package emt.proekt.bicycleshop.sharedkernel.domain.geo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.ValueObject;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -9,10 +11,15 @@ import java.util.Objects;
 @Embeddable
 public class City implements ValueObject {
 
-    @Column(name = "city_name")
+    @Column(name = "city")
     private final String name;
 
     private City() {this.name="";}
+
+    @JsonCreator
+    public City(@NonNull String name) {
+        this.name = Objects.requireNonNull(name, "name must not be null");
+    }
 
 
     @Override

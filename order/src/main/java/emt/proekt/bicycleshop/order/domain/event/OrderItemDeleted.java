@@ -25,19 +25,19 @@ public class OrderItemDeleted implements DomainEvent {
     @JsonProperty("quantity")
     private final int quantity;
 
-    @JsonProperty("occurredDate")
-    private final Instant occurredDate;
+    @JsonProperty("occurredOn")
+    private final Instant occurredOn;
 
-    public OrderItemDeleted(OrderId orderId, OrderItemId orderItemId, ProductId productId, int quantity, Instant occurredDate) {
+    public OrderItemDeleted(OrderId orderId, OrderItemId orderItemId, ProductId productId, int quantity, Instant occurredOn) {
         this.orderId = orderId;
         this.orderItemId = orderItemId;
         this.productId = productId;
         this.quantity = quantity;
-        this.occurredDate = occurredDate;
+        this.occurredOn = occurredOn;
     }
 
     @Override
-    public @NonNull Instant occurredDate() {
-        return occurredDate;
+    public @NonNull Instant occurredOn() {
+        return occurredOn;
     }
 }

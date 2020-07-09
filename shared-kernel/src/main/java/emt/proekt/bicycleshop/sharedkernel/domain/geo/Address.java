@@ -1,13 +1,11 @@
 package emt.proekt.bicycleshop.sharedkernel.domain.geo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.ValueObject;
 import lombok.Getter;
 import lombok.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Embeddable
@@ -18,11 +16,12 @@ public class Address implements ValueObject {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "city_name")
+    @Column(name = "city")
     @Embedded
     private City city;
 
     @Column(name = "country")
+    @Enumerated(EnumType.STRING)
     private Country country;
 
     @SuppressWarnings("unused") // Used by JPA only.
@@ -62,6 +61,23 @@ public class Address implements ValueObject {
         return sb.toString();
     }
 
+    @org.springframework.lang.NonNull
+    @JsonProperty("address")
+    public String address() {
+        return address;
+    }
+
+    @org.springframework.lang.NonNull
+    @JsonProperty("city")
+    public City city() {
+        return city;
+    }
+
+    @org.springframework.lang.NonNull
+    @JsonProperty("country")
+    public Country country() {
+        return country;
+    }
 
 
 }

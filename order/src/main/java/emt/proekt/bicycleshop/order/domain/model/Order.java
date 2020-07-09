@@ -48,7 +48,6 @@ public class Order extends AbstractEntity<OrderId> {
     private UserId userId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false, updatable = false, insertable = false)
     private Set<OrderItem> items;
 
     @SuppressWarnings("unused")

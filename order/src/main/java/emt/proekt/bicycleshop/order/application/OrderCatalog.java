@@ -20,6 +20,7 @@ import javax.validation.Validator;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -39,6 +40,7 @@ public class OrderCatalog {
         this.validator = validator;
     }
 
+    @Transactional
     public OrderId createOrder(@NonNull OrderForm order) {
         Objects.requireNonNull(order,"order must not be null");
         var constraintViolations = validator.validate(order);
@@ -67,6 +69,10 @@ public class OrderCatalog {
     public Optional<Order> findById(@NonNull OrderId orderId) {
         Objects.requireNonNull(orderId, "orderId must not be null");
         return orderRepository.findById(orderId);
+    }
+
+    public List<Order> findAll() {
+        return orderRepository.findAll();
     }
 
     @NonNull

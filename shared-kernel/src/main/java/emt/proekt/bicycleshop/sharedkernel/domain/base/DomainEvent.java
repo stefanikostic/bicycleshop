@@ -6,7 +6,6 @@ import java.time.Instant;
 
 public interface DomainEvent {
 
-
     @NonNull
-    Instant occurredDate();
+    Instant occurredOn();
 }

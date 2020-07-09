@@ -13,14 +13,14 @@ public class OrderCanceled implements DomainEvent {
 
     @JsonProperty("orderId")
     private final OrderId orderId;
-    @JsonProperty("occurredDate")
-    private final Instant occurredDate;
+    @JsonProperty("occurredOn")
+    private final Instant occurredOn;
 
     @JsonCreator
     public OrderCanceled(@JsonProperty("orderId") @NonNull OrderId orderId,
-                        @JsonProperty("occurredDate") @NonNull Instant occurredDate) {
+                         @JsonProperty("occurredOn") @NonNull Instant occurredOn) {
         this.orderId = Objects.requireNonNull(orderId, "orderId must not be null");
-        this.occurredDate = Objects.requireNonNull(occurredDate, "occurredDate must not be null");
+        this.occurredOn = Objects.requireNonNull(occurredOn, "occurredOn must not be null");
     }
 
     @NonNull
@@ -30,8 +30,8 @@ public class OrderCanceled implements DomainEvent {
 
     @Override
     @NonNull
-    public Instant occurredDate() {
-        return occurredDate();
+    public Instant occurredOn() {
+        return occurredOn;
     }
 
 }

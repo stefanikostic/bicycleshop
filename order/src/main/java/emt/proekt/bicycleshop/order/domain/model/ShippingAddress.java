@@ -7,7 +7,6 @@ import emt.proekt.bicycleshop.sharedkernel.domain.geo.Country;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.Embeddable;
-import java.util.Objects;
 
 @Embeddable
 public class ShippingAddress extends Address {
@@ -19,5 +18,6 @@ public class ShippingAddress extends Address {
                            @NonNull City city, @NonNull Country country) {
         super(address, city, country);
     }
+
 
 }

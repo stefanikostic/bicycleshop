@@ -27,9 +27,9 @@ public class StoredDomainEvent {
     @JsonProperty("id")
     private Long id;
 
-    @Column(name = "occurred_Date", nullable = false)
-    @JsonProperty("occurredDate")
-    private Instant occurredDate;
+    @Column(name = "occurred_on", nullable = false)
+    @JsonProperty("occurredOn")
+    private Instant occurredOn;
 
     @Column(name = "domain_event_class_name", nullable = false)
     @JsonProperty("domainEventClass")
@@ -51,7 +51,7 @@ public class StoredDomainEvent {
     StoredDomainEvent(@NonNull DomainEvent domainEvent, @NonNull ObjectMapper objectMapper) {
         Objects.requireNonNull(domainEvent, "domainEvent must not be null");
         Objects.requireNonNull(objectMapper, "objectMapper must not be null");
-        occurredDate = domainEvent.occurredDate();
+        occurredOn = domainEvent.occurredOn();
         domainEventClass = domainEvent.getClass();
         domainEventClassName = domainEventClass.getName();
         try {
@@ -132,8 +132,8 @@ public class StoredDomainEvent {
 
 
     @NonNull
-    public Instant occurredDate() {
-        return occurredDate;
+    public Instant occurredOn() {
+        return occurredOn;
     }
 
     @Override
