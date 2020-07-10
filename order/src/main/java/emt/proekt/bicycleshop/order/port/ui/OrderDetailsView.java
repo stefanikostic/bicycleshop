@@ -2,8 +2,10 @@ package emt.proekt.bicycleshop.order.port.ui;
 
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -55,6 +57,20 @@ public class OrderDetailsView extends VerticalLayout implements HasUrlParameter<
         var footerRow = items.appendFooterRow();
         footerRow.getCell(subtotalExcludingTax).setText(order.total().toString());
         add(items);
+        var cancelOrder = new Button("Cancel Order", evt -> cancelOrder(order.id()));
+        cancelOrder.setEnabled(true);
+        cancelOrder.getElement().getThemeList().set("primary", true);
+
+        add(cancelOrder);
+    }
+
+    private void cancelOrder(OrderId orderId) {
+        try {
+            orderCatalog.cancelOrder(orderId);
+            getUI().ifPresent(ui -> ui.navigate(OrderDetailsView.class, orderId.getId()));
+        } catch (Exception ex) {
+            Notification.show(ex.getMessage());
+        }
     }
 
     private TextField createReadOnlyTextField(String value) {

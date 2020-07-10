@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import emt.proekt.bicycleshop.sharedkernel.domain.base.DomainEvent;
 import emt.proekt.bicycleshop.sharedkernel.infra.eventlog.RemoteEventTranslator;
 import emt.proekt.bicycleshop.sharedkernel.infra.eventlog.StoredDomainEvent;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class OrderItemDeletedTranslator implements RemoteEventTranslator {
     private final ObjectMapper objectMapper;
 
@@ -16,7 +18,7 @@ public class OrderItemDeletedTranslator implements RemoteEventTranslator {
 
     @Override
     public boolean supports(StoredDomainEvent storedDomainEvent) {
-        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.product.integration.OrderItemDeletedEvent");
+        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.bicycle.domain.events.OrderItemDeleted");
     }
 
     @Override

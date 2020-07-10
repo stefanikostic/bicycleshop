@@ -5,45 +5,46 @@ import emt.proekt.bicycleshop.sharedkernel.infra.eventlog.RemoteEventLogService;
 import emt.proekt.bicycleshop.sharedkernel.infra.eventlog.StoredDomainEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class RemoteEventLogServiceClient implements RemoteEventLogService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoteEventLogServiceClient.class);
 
-    private final String serverUrl;
+    private final String source;
     private final RestTemplate restTemplate;
 
-    public RemoteEventLogServiceClient(String serverUrl, int connectionTimeout, int readTimeout) {
-        this.serverUrl = serverUrl;
+    public RemoteEventLogServiceClient(@Value("${app.orders.url}") String source,
+                                       @Value("${app.orders.connect-timeout-ms}") int connectTimeout,
+                                       @Value("${app.orders.read-timeout-ms}") int readTimeout) {
+        this.source = source;
         this.restTemplate = new RestTemplate();
         var requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(connectionTimeout);
+        requestFactory.setConnectTimeout(connectTimeout);
         requestFactory.setReadTimeout(readTimeout);
         restTemplate.setRequestFactory(requestFactory);
     }
 
-    private UriComponentsBuilder uri() {
-        return UriComponentsBuilder.fromUriString(serverUrl);
-    }
-
     @Override
     public String source() {
-        return serverUrl;
+        return source;
     }
 
     @Override
     public RemoteEventLog currentLog(long lastProcessedId) {
         List<StoredDomainEvent> events;
         try{
-             events = restTemplate.exchange(uri().path("/api/event-log/" + lastProcessedId).build().toUri(), HttpMethod.GET, null,
+            events = restTemplate.exchange(UriComponentsBuilder.fromUriString(source).path("/api/event-log/" + lastProcessedId).build().toUri(), HttpMethod.GET, null,
                     new ParameterizedTypeReference<List<StoredDomainEvent>>() {
                     }).getBody();
         } catch (Exception ex){

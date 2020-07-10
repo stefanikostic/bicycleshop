@@ -4,11 +4,9 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Setter;
@@ -47,21 +45,14 @@ public class CreateOrderView extends VerticalLayout {
         var title = new Html("<h3>Create Order</h3>");
         add(title);
 
-        var tabs = new Tabs();
-        tabs.setWidth("100%");
-        add(tabs);
-        var tabContainer = new TabContainer(tabs);
-        tabContainer.setWidth("100%");
-        tabContainer.setHeight("100%");
-        add(tabContainer);
-
         itemGrid = new Grid<>();
         itemGrid.addColumn(form -> form.getProduct().getProductModel()).setHeader("Product");
         itemGrid.addColumn(OrderItemForm::getQuantity).setHeader("Qty");
 
         var orderItemLayout = new OrderItemLayout();
-        tabContainer.addTab("Items", new Div(itemGrid, orderItemLayout));
 
+        add(itemGrid);
+        add(orderItemLayout);
 
         var shippingAddress = new AddressLayout();
         shippingAddress.bind(binder, OrderForm::getShippingAddress);
@@ -81,7 +72,7 @@ public class CreateOrderView extends VerticalLayout {
         add(user);
 
         var createOrder = new Button("Create Order", evt -> createOrder());
-        createOrder.setEnabled(true);
+        createOrder.setEnabled(false);
         createOrder.getElement().getThemeList().set("primary", true);
 
 
@@ -89,7 +80,6 @@ public class CreateOrderView extends VerticalLayout {
 
         binder.setBean(new OrderForm());
         binder.addValueChangeListener(evt -> createOrder.setEnabled(binder.isValid()));
-        tabs.setSelectedIndex(0);
     }
 
 

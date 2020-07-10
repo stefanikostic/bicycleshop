@@ -14,7 +14,7 @@ import javax.persistence.Embeddable;
 public class OrderId extends DomainObjectId {
 
     private OrderId() {
-        super("");
+        super(DomainObjectId.randomId(OrderId.class).getId());
     }
 
     @JsonCreator

@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 public class OrderItemId extends DomainObjectId {
 
     private OrderItemId() {
-        super("");
+        super(DomainObjectId.randomId(OrderItemId.class).getId());
     }
 
     public OrderItemId(String id) {

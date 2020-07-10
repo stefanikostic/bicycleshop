@@ -8,8 +8,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderItemId extends DomainObjectId {
 
-    private String id;
-
     private OrderItemId() {
         super(DomainObjectId.randomId(OrderItemId.class).toString());
     }
@@ -17,6 +15,5 @@ public class OrderItemId extends DomainObjectId {
     @JsonCreator
     public OrderItemId(String id) {
         super(id);
-        this.id=id;
     }
 }

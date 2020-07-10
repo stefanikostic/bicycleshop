@@ -34,12 +34,12 @@ public class ProductCatalog {
         return productRepository.findById(productId);
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+/*    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onOrderItemAdded(OrderItemAddedEvent event){
         Product product = productRepository.findById(event.getProductId()).orElseThrow(RuntimeException::new);
         product.subtractQuantity(event.getQuantity());
         productRepository.save(product);
-    }
+    }*/
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void onOrderItemDeleted(OrderItemDeletedEvent event){

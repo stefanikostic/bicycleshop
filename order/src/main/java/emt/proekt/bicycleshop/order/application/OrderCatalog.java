@@ -55,7 +55,7 @@ public class OrderCatalog {
         return newOrder.id();
     }
 
-
+    @Transactional
     public void cancelOrder(OrderId orderId){
         Objects.requireNonNull(orderId,"orderId must not be null");
         Order order = orderRepository.findById(orderId).orElseThrow(RuntimeException::new);
