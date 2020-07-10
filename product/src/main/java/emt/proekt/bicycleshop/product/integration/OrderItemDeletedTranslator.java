@@ -18,7 +18,7 @@ public class OrderItemDeletedTranslator implements RemoteEventTranslator {
 
     @Override
     public boolean supports(StoredDomainEvent storedDomainEvent) {
-        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.bicycle.domain.events.OrderItemDeleted");
+        return storedDomainEvent.domainEventClassName().equals("emt.proekt.bicycleshop.order.domain.event.OrderItemDeleted");
     }
 
     @Override
